@@ -89,6 +89,7 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    if: ${{ secrets.DEPLOY_HOST != '' && secrets.DEPLOY_USER != '' && secrets.SSH_PRIVATE_KEY != '' }}
     
     steps:
       - name: Checkout repository
@@ -106,4 +107,4 @@ jobs:
             export OWNER=${{ github.repository_owner }}
             docker compose -f docker-compose.pub.yml down
             docker compose -f docker-compose.pub.yml pull
-            docker compose -f docker-compose.pub.yml up -d 
+            docker compose -f docker-compose.pub.yml up -d

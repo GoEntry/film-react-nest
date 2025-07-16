@@ -31,13 +31,6 @@ services:
     networks:
       - internal
 
-  frontend:
-    image: ghcr.io/${OWNER}/frontend:latest
-    networks:
-      - internal
-    depends_on:
-      - backend
-
   backend:
     image: ghcr.io/${OWNER}/backend:latest
     environment:
@@ -54,6 +47,13 @@ services:
       database:
         condition: service_healthy
 
+  frontend:
+    image: ghcr.io/${OWNER}/frontend:latest
+    networks:
+      - internal
+    depends_on:
+      - backend
+
   server:
     image: ghcr.io/${OWNER}/server:latest
     ports:
@@ -69,7 +69,6 @@ services:
 volumes:
   db_data:
   pgadmin-data:
-  frontend_build:
 
 networks:
-  internal: 
+  internal:

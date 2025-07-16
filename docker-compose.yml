@@ -33,15 +33,6 @@ services:
     networks:
       - internal
 
-  frontend:
-    image: ghcr.io/${OWNER}/frontend:latest
-    build:
-      context: frontend
-    networks:
-      - internal
-    depends_on:
-      - backend
-
   backend:
     image: ghcr.io/${OWNER}/backend:latest
     build:
@@ -72,7 +63,6 @@ services:
       - ./nginx/www:/var/www
     depends_on:
       - backend
-      - frontend
     networks:
       - internal
 
