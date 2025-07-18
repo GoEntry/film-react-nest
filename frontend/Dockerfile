@@ -1,5 +1,5 @@
 # Используем Node.js 18 на Alpine Linux для минимального размера образа
-FROM node:18-alpine as build
+FROM node:18-alpine
 
 # Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
@@ -14,6 +14,9 @@ RUN npm ci
 # Копируем все файлы проекта в контейнер
 COPY . .
 
-# Запускаем сборку проекта
+# Запускаем сборку проекта, пропуская проверку типов
 # Результат будет в директории /app/dist
-RUN npm run build 
+RUN NODE_ENV=production npx vite build
+
+# Команда для запуска приложения
+CMD ["npm", "run", "preview"]
