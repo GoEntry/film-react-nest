@@ -49,19 +49,19 @@ services:
 
   frontend:
     image: ghcr.io/${OWNER}/frontend:latest
-    volumes:
-      - frontend_build:/app/dist
     networks:
       - internal
     depends_on:
       - backend
+    ports:
+      - "3001:80"
 
   server:
     image: ghcr.io/${OWNER}/server:latest
     ports:
       - 80:80
     volumes:
-      - frontend_build:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
       - frontend
@@ -71,7 +71,6 @@ services:
 volumes:
   db_data:
   pgadmin-data:
-  frontend_build:
 
 networks:
   internal:
