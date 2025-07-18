@@ -8,8 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости с использованием чистой установки
-# npm ci быстрее и надежнее чем npm install для CI/CD окружений
-RUN npm ci
+# Добавляем установку дополнительных зависимостей для Alpine Linux
+RUN apk add --no-cache python3 make g++ \
+    && npm ci \
+    && npm rebuild rollup --update-binary
 
 # Копируем все файлы проекта в контейнер
 COPY . .
