@@ -1,5 +1,5 @@
 # Используем Node.js 18 на Alpine Linux для минимального размера образа
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
