@@ -1,0 +1,85 @@
+services:
+  database:
+    image: postgres:16.4
+    command: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./postgres-init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - internal
+
+  frontend:
+    image: ghcr.io/${OWNER}/frontend:latest
+    build:
+      context: frontend
+    networks:
+      - internal
+    depends_on:
+      - backend
+
+  backend:
+    image: ghcr.io/${OWNER}/backend:latest
+    build:
+      context: backend
+    environment:
+      PORT: 3000
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: film_user
+      DATABASE_PASSWORD: film_password
+      DATABASE_NAME: film_project
+      DATABASE_SCHEMA: ${DB_SCHEMA}
+    ports:
+      - 3000:3000
+    networks:
+      - internal
+    depends_on:
+      database:
+        condition: service_healthy
+
+  server:
+    image: ghcr.io/${OWNER}/server:latest
+    build:
+      context: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/www:/var/www
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - internal
+
+volumes:
+  db_data:
+  pgadmin-data:
+  frontend_build:
+
+networks:
+  internal: 
