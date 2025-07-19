@@ -1,5 +1,8 @@
 # FILM!
 
+### Ссылка
+film-goentry.nomorepartiessbs.ru
+
 ## Установка
 
 ### MongoDB
@@ -49,33 +52,6 @@ MongoDB должна быть установлена и запущена.
 ```bash
 docker compose up -d
 ```
-
-## Продакшн развертывание
-
-Для продакшн развертывания используйте:
-
-```bash
-export OWNER=your-github-username
-docker compose -f docker-compose.pub.yml up -d
-```
-
-## Настройка GitHub Actions для автоматической сборки и публикации
-
-1. Создайте приватный репозиторий на GitHub и загрузите код проекта.
-
-2. Настройте секреты для деплоя (если нужно):
-   - `DEPLOY_HOST` - хост сервера для деплоя
-   - `DEPLOY_USER` - пользователь для SSH подключения
-   - `SSH_PRIVATE_KEY` - приватный SSH ключ для подключения к серверу
-
-3. Workflow автоматически соберет и опубликует Docker образы в GitHub Container Registry при пуше в ветку `main`.
-
-4. Образы будут доступны по следующим адресам:
-   - `ghcr.io/{owner}/backend:latest`
-   - `ghcr.io/{owner}/frontend:latest`
-   - `ghcr.io/{owner}/server:latest`
-
-5. Если настроены секреты для деплоя, приложение будет автоматически развернуто на указанном сервере.
 
 ## Переменные окружения
 
