@@ -1,7 +1,7 @@
 # FILM!
 
 ### Ссылка
-film-goentry.nomorepartiessbs.ru
+https://film-goentry.nomorepartiessbs.ru
 
 ## Установка
 
