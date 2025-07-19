@@ -2,8 +2,6 @@
 \c film_project;
 
 -- Заполнение таблицы расписания сеансов
--- Для каждого фильма создаются сеансы в разное время и в разных залах
-
 -- Расписание для фильма "Архитекторы общества"
 INSERT INTO schedules (id, daytime, hall, rows, seats, price, taken, film_id) VALUES
 ('f2e429b0-685d-41f8-a8cd-1d8cb63b99ce', '10:00', '0', 5, 10, 350.00, ARRAY[]::VARCHAR[], '0e33c7f6-27a7-4aa0-8e61-65d7e5effecf'),
